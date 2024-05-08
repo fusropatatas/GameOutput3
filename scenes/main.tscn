@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://cp783bcftg1v4"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_neeww"]
+[ext_resource type="PackedScene" uid="uid://brj66rpg6ncwl" path="res://scenes/player.tscn" id="1_nx0rq"]
+[ext_resource type="PackedScene" uid="uid://il402m5rm3vh" path="res://scenes/enemy.tscn" id="2_cmkbs"]
+[ext_resource type="Texture2D" uid="uid://bl2e40nvkgs1t" path="res://assets/sky.jpg" id="4_0t02m"]
+
+[sub_resource type="Curve2D" id="Curve2D_g0vbo"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1201, 1, 0, 0, 0, 0, 1202, 652)
+}
+point_count = 2
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_neeww")
+enemy_scene = ExtResource("2_cmkbs")
+
+[node name="Player" parent="." instance=ExtResource("1_nx0rq")]
+
+[node name="SpawnLocation" type="Path2D" parent="."]
+curve = SubResource("Curve2D_g0vbo")
+
+[node name="SpawnPoints" type="PathFollow2D" parent="SpawnLocation"]
+position = Vector2(1201, 1)
+rotation = 1.56926
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+texture_filter = 2
+motion_mirroring = Vector2(1920, 885)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_repeat = 3
+position = Vector2(-10, -212)
+texture = ExtResource("4_0t02m")
+centered = false
+
+[node name="Score" type="Label" parent="."]
+texture_filter = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 950.0
+offset_top = 10.0
+offset_right = 1137.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="Health" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="hit_score" from="Player" to="." method="_on_player_hit_score"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

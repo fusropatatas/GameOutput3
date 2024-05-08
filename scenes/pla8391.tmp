@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://brj66rpg6ncwl"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_dntd8"]
+[ext_resource type="PackedScene" uid="uid://d3d1levv1b7kk" path="res://scenes/playerbullet.tscn" id="2_6aw4k"]
+[ext_resource type="Texture2D" uid="uid://ck7l7ih3rgm47" path="res://assets/Ships/ship_0000.png" id="2_twxwj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d1k8l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_twxwj")
+}],
+"loop": true,
+"name": &"Default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_35wfd"]
+size = Vector2(21, 30)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(53, 70)
+scale = Vector2(4, 4)
+script = ExtResource("1_dntd8")
+projectile = ExtResource("2_6aw4k")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_d1k8l")
+animation = &"Default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -3.8147e-06)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_35wfd")
+debug_color = Color(0, 0.647059, 0.184314, 0.419608)
+
+[node name="BulletSpawn" type="Marker2D" parent="."]
+position = Vector2(11, 0)
+
+[node name="AttackSpeed" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

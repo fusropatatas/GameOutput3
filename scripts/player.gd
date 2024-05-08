@@ -78,7 +78,7 @@ func damaged(dmg: int):
 		await tween.finished
 		health_depleted.emit()
 		hide()
-		position = Vector2(0,-100)
+		position = Vector2(0,-1000)
 
 func _bullet_impact():
 	hit_score.emit()

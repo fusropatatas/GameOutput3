@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://d3d1levv1b7kk"]
+
+[ext_resource type="Script" path="res://scenes/player_bullet.gd" id="1_y3nau"]
+[ext_resource type="Texture2D" uid="uid://dinu3s7vdpkrt" path="res://boolets.png" id="2_d2iiw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gyyce"]
+size = Vector2(18, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fepk7"]
+atlas = ExtResource("2_d2iiw")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_objp5"]
+atlas = ExtResource("2_d2iiw")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0tmq"]
+atlas = ExtResource("2_d2iiw")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwae1"]
+atlas = ExtResource("2_d2iiw")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54qn3"]
+atlas = ExtResource("2_d2iiw")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dydh8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fepk7")
+}],
+"loop": true,
+"name": &"explode",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_objp5")
+}],
+"loop": true,
+"name": &"fired",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0tmq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwae1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54qn3")
+}],
+"loop": true,
+"name": &"in_flight",
+"speed": 5.0
+}]
+
+[node name="PlayerBullet" type="Area2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_y3nau")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gyyce")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_dydh8")
+animation = &"in_flight"
+
+[node name="Despawn" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Despawn" to="." method="_on_despawn_timeout"]

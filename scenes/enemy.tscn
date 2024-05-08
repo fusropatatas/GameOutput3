@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://il402m5rm3vh"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_y73i5"]
+[ext_resource type="PackedScene" uid="uid://knxknpdbqjyf" path="res://scenes/enemy_bullet.tscn" id="2_p8dhw"]
+[ext_resource type="Texture2D" uid="uid://d11rad3vpsgjb" path="res://RAAAAAAa.png" id="3_3kads"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gi52"]
+atlas = ExtResource("3_3kads")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bael"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k7cc"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 32, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8eb6"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 48, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cotm"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqwhr"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 32, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vrf7"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 48, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axj48"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_487pq"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3g1e"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 32, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhxr5"]
+atlas = ExtResource("3_3kads")
+region = Rect2(0, 48, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n84gg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gi52")
+}],
+"loop": true,
+"name": &"explode",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bael")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k7cc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8eb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4cotm")
+}],
+"loop": true,
+"name": &"ship1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqwhr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vrf7")
+}],
+"loop": true,
+"name": &"ship2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axj48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_487pq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3g1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhxr5")
+}],
+"loop": true,
+"name": &"ship3",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2g55r"]
+size = Vector2(34, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n25j5"]
+size = Vector2(29, 20.6666)
+
+[node name="Enemy" type="CharacterBody2D"]
+texture_filter = 3
+position = Vector2(525, 538)
+rotation = -1.5708
+scale = Vector2(3, 3)
+script = ExtResource("1_y73i5")
+projectile = ExtResource("2_p8dhw")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_n84gg")
+animation = &"explode"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2g55r")
+
+[node name="BulletSpawn" type="Marker2D" parent="."]
+position = Vector2(5.68248e-07, -13)
+
+[node name="AttackSpeed" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="BodyCollider" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.166626, -0.333313)
+shape = SubResource("RectangleShape2D_n25j5")
+
+[connection signal="timeout" from="AttackSpeed" to="." method="_on_attack_speed_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
